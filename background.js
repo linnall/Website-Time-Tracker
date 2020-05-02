@@ -63,12 +63,46 @@ function processTabChange(isActive) {
 						if (lastUrlObjectInfo.hasOwnProperty("trackedSec")){
 							lastUrlObjectInfo["trackedSec"] = lastUrlObjectInfo["trackedSec"] + passedSeconds; 
 						} else {
-							lastUrlObjectInfo["trackedSec"] = 
+							lastUrlObjectInfo["trackedSec"] = passedSeconds;
 						}
+						lastUrlObjectInfo["lastDateVal"] = currentDateVal_;
+					} else {
+						let newUrlInfo = {url: lastUrl, trackedSec: passedSeconds, lastDateVal: currentDateVal_};
+						tabTimeObject[lastUrl] = newUrlInfo;
 					}
 				}
 
-			})
+				let currentDate = Date.now();
+
+				//storing current tab info:
+				let lastTabInfo = {"url": hostname, "lastDateVal": currentDate};
+				if (!isActive) {
+					lastTabInfo = {};
+				}
+
+				let newLastTabObject = {};
+				newLastTabObject[lastActiveTabKey] = JSON.stringify(lastTabInfo);
+
+				chrome.storage.local.set(newLastTabObject, function(){
+					const tabTimesObjectStr = JSON.stringify(tabTimeObject);
+					let newTabTimesObject = {};
+					newTabTimesObject[tabTimeObjectKey] = tabTimesObjectStr;
+					chrome.storage.local.set(newTabTimesObject, function (){
+
+					});
+				});
+
+			});
 		}
-	})
+	});
 }
+
+function onTabTrack(isActive) {
+	let tabID = isActive.tabId;
+	let windowId = isActive.windowId;
+
+	processTabChange(true);
+}
+
+
+chrome.tabs.onActivated.addListener(onTabTrack);
