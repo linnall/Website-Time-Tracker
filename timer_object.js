@@ -22,12 +22,10 @@ function Timer(elem){
     }
 
     function timeConversion(init){
-        /*var h = Math.floor(init/3600000).toString();
-        var m = Math.floor((init/60000) - (h * 60)).toString();
-        var s = Math.floor(init/1000 - (m * 60) - (h * 3600)).toString(); */
 
         var time = new Date(init);
-        var h = Math.floor(init/3600000).toString();
+        var h = Math.floor(init/3600000).toString(); //this also technically works
+        //var h = (time.getHours()-19).toString();
         var m = time.getMinutes().toString();
         var s = time.getSeconds().toString();
 
