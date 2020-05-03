@@ -8,10 +8,8 @@ clearBtn.onclick = function(element) {
 }
 
 showGraphbtn.onclick = function(element) {
-<<<<<<< HEAD
 	
 }
-=======
 	anychart.onDocumentReady(function () {
           chrome.storage.local.get("tabTimesObject", function(dataCont){
             let dataString = dataCont["tabTimesObject"];
@@ -58,4 +56,3 @@ showGraphbtn.onclick = function(element) {
           });
         });
 }
->>>>>>> 66243816578987dccfc03f3190e81ef2744a5341
